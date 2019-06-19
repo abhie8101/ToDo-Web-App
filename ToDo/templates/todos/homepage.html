@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <h1 style="font-size:300%">HOME</h1>
+    {% block content %}
+    {% csrf_token %}
+    {% if request.user.is_authenticated %}
+      <h1 id ="Welcome">Welcome {{ request.user.username }}</h1>
+      <nav>
+          <a href="{% url 'logout' %}">Logout</a><br>
+          <a href="/homepage">Home</a><br>
+          <a href="/todos">create a TODO</a><br>
+      </nav>
+    {% endif %}
+  {% endblock %}
+  <hr>
+    <h1>ALL TODOS : </h1>
+    {% for task in tasks%}
+      <form action = "{% url 'delete' todoid=task.id %}">
+
+      <hr align = left width = 50%>
+      <h1>Title:{{ task.Title }}</h1>
+      <h3>Discription: {{ task.Discription }}</h3>
+      <h6>created on : {{ task.created_at }}</h6>
+      <button type="submit" name="button">delete</button>
+      <hr align = left width = 50%>
+      </form>
+    {%endfor%}
+    <hr>
+
+
+  </body>
+</html>
